@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>JARVIS v15</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family:
+        Inter,
+        Segoe UI,
+        Arial,
+        sans-serif;
+    background: #080a0e;
+    color: #f4f7fb;
+}
+
+body {
+    overflow: hidden;
+}
+
+button,
+textarea {
+    font: inherit;
+}
+
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+.app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(76, 108, 255, .12),
+            transparent 38%
+        ),
+        #080a0e;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    width: 255px;
+    height: 100%;
+    border-right:
+        1px solid rgba(255,255,255,.07);
+    background:
+        rgba(12,15,21,.82);
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 6px 9px 20px;
+}
+
+.brand-orb {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff,
+            #8ca7ff 24%,
+            #4168ff 55%,
+            #19285f 100%
+        );
+    box-shadow:
+        0 0 22px rgba(83,113,255,.38);
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: .5px;
+}
+
+.version {
+    color: #727b8d;
+    font-size: 11px;
+    margin-left: 4px;
+}
+
+.new-chat {
+    border: 1px solid rgba(255,255,255,.08);
+    background: #141820;
+    color: white;
+    border-radius: 11px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.new-chat:hover {
+    background: #1a1f29;
+}
+
+.sidebar-title {
+    color: #6f7888;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 10px 3px;
+}
+
+.conversation {
+    color: #c8ced9;
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 9px;
+    background: rgba(255,255,255,.035);
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    border-top:
+        1px solid rgba(255,255,255,.06);
+    padding-top: 14px;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #9da6b6;
+    font-size: 12px;
+    padding: 8px 10px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #48d597;
+    box-shadow:
+        0 0 10px rgba(72,213,151,.7);
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 26px;
+    border-bottom:
+        1px solid rgba(255,255,255,.06);
+}
+
+.top-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.top-status {
+    color: #7e8798;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
+.chat {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 35px 20px 140px;
+}
+
+.chat-inner {
+    max-width: 850px;
+    margin: auto;
+}
+
+.welcome {
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.welcome-orb {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fff,
+            #9fb4ff 22%,
+            #4b6eff 52%,
+            #17224f
+        );
+    box-shadow:
+        0 0 35px rgba(73,101,255,.3);
+    margin-bottom: 26px;
+}
+
+.welcome h1 {
+    font-size: 31px;
+    margin: 0 0 10px;
+    letter-spacing: -.7px;
+}
+
+.welcome p {
+    margin: 0;
+    color: #7e8797;
+    max-width: 510px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   MESSAGES
+   ========================================================= */
+
+.message {
+    display: flex;
+    gap: 13px;
+    margin-bottom: 25px;
+}
+
+.avatar {
+    width: 31px;
+    height: 31px;
+    min-width: 31px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.avatar.jarvis {
+    background:
+        linear-gradient(
+            145deg,
+            #4b6dff,
+            #283a8e
+        );
+}
+
+.avatar.user {
+    background: #202631;
+    color: #aeb7c6;
+}
+
+.message-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.message-name {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #aab2c0;
+}
+
+.message-text {
+    color: #e9edf4;
+    line-height: 1.65;
+    font-size: 14px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.message-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.message-actions button {
+    border: 0;
+    background: transparent;
+    color: #667080;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 4px 6px;
+}
+
+.message-actions button:hover {
+    color: #b7c0cf;
+}
+
+
+/* =========================================================
+   PERMISSION
+   ========================================================= */
+
+.permission {
+    margin-top: 13px;
+    max-width: 430px;
+    padding: 15px;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 13px;
+    background: #11151d;
+}
+
+.permission-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.permission-text {
+    color: #858e9e;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 13px;
+}
+
+.permission-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.permission-buttons button {
+    flex: 1;
+    padding: 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.allow {
+    background: #e9edf5;
+    color: #0c0f14;
+}
+
+.deny {
+    background: #191e27;
+    color: #c7ced9;
+}
+
+
+/* =========================================================
+   COMPOSER
+   ========================================================= */
+
+.composer-area {
+    position: fixed;
+    left: 255px;
+    right: 0;
+    bottom: 0;
+    padding: 15px 20px 21px;
+    background:
+        linear-gradient(
+            to top,
+            #080a0e 65%,
+            transparent
+        );
+}
+
+.composer {
+    max-width: 850px;
+    margin: auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 9px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,.1);
+    background:
+        rgba(18,22,29,.96);
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.28);
+}
+
+.textbox {
+    flex: 1;
+    min-width: 0;
+}
+
+textarea {
+    width: 100%;
+    min-height: 43px;
+    max-height: 150px;
+    resize: none;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #f1f4f9;
+    padding: 11px 5px;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+textarea::placeholder {
+    color: #626b7a;
+}
+
+.icon-button {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #8c95a5;
+    cursor: pointer;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.icon-button:hover {
+    background: rgba(255,255,255,.06);
+    color: white;
+}
+
+.send-button {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background: #edf1f8;
+    color: #0b0e13;
+    cursor: pointer;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.send-button:hover {
+    background: white;
+}
+
+.composer-note {
+    max-width: 850px;
+    margin: 8px auto 0;
+    text-align: center;
+    color: #4f5868;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .composer-area {
+        left: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .chat {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+
+    .welcome h1 {
+        font-size: 26px;
+    }
+
+    .welcome p {
+        font-size: 13px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-orb"></div>
+
+            <div>
+                <div class="brand-name">
+                    JARVIS
+                </div>
+
+                <span class="version">
+                    v15
+                </span>
+            </div>
+
+        </div>
+
+
+        <button
+            class="new-chat"
+            onclick="newChat()"
+        >
+            + New chat
+        </button>
+
+
+        <div class="sidebar-title">
+            Conversations
+        </div>
+
+
+        <div
+            class="conversation"
+            id="conversationItem"
+        >
+            New conversation
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="status">
+
+                <span class="status-dot"></span>
+
+                JARVIS online
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="top-title">
+                JARVIS
+            </div>
+
+            <div
+                class="top-status"
+                id="systemStatus"
+            >
+                Connecting...
+            </div>
+
+        </header>
+
+
+        <section
+            class="chat"
+            id="chat"
+        >
+
+            <div
+                class="chat-inner"
+                id="chatInner"
+            >
+
+                <div
+                    class="welcome"
+                    id="welcome"
+                >
+
+                    <div class="welcome-orb"></div>
+
+                    <h1>
+                        How can I help you?
+                    </h1>
+
+                    <p>
+                        Ask JARVIS a question,
+                        check your computer,
+                        or give it a command.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- COMPOSER -->
+
+        <div class="composer-area">
+
+            <div class="composer">
+
+                <button
+                    class="icon-button"
+                    id="micButton"
+                    title="Voice input"
+                    onclick="toggleVoice()"
+                >
+                    🎤
+                </button>
+
+
+                <div class="textbox">
+
+                    <textarea
+                        id="input"
+                        rows="1"
+                        placeholder="Message JARVIS..."
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    class="send-button"
+                    onclick="sendMessage()"
+                    title="Send"
+                >
+                    ↑
+                </button>
+
+            </div>
+
+
+            <div class="composer-note">
+                JARVIS v15 · Local assistant
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const input =
+    document.getElementById("input");
+
+const chat =
+    document.getElementById("chat");
+
+const chatInner =
+    document.getElementById("chatInner");
+
+const welcome =
+    document.getElementById("welcome");
+
+const systemStatus =
+    document.getElementById("systemStatus");
+
+const conversationItem =
+    document.getElementById(
+        "conversationItem"
+    );
+
+const micButton =
+    document.getElementById(
+        "micButton"
+    );
+
+
+let sessionId =
+    localStorage.getItem(
+        "jarvis_session"
+    );
+
+
+if (!sessionId) {
+
+    sessionId =
+        crypto.randomUUID();
+
+    localStorage.setItem(
+        "jarvis_session",
+        sessionId
+    );
+}
+
+
+/* =========================================================
+   ADD MESSAGE
+   ========================================================= */
+
+function addMessage(
+    sender,
+    text,
+    type = "normal"
+) {
+
+    welcome.style.display = "none";
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+    message.className =
+        "message";
+
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar " +
+        (
+            sender === "JARVIS"
+            ? "jarvis"
+            : "user"
+        );
+
+    avatar.textContent =
+        sender === "JARVIS"
+        ? "J"
+        : "U";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+    content.className =
+        "message-content";
+
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "message-name";
+
+    name.textContent =
+        sender;
+
+
+    const messageText =
+        document.createElement(
+            "div"
+        );
+
+    messageText.className =
+        "message-text";
+
+    messageText.textContent =
+        text;
+
+
+    content.appendChild(
+        name
+    );
+
+    content.appendChild(
+        messageText
+    );
+
+
+    if (sender === "JARVIS") {
+
+        const actions =
+            document.createElement(
+                "div"
+            );
+
+        actions.className =
+            "message-actions";
+
+
+        const copy =
+            document.createElement(
+                "button"
+            );
+
+        copy.textContent =
+            "Copy";
+
+        copy.onclick = () =>
+            navigator.clipboard.writeText(
+                text
+            );
+
+
+        const speak =
+            document.createElement(
+                "button"
+            );
+
+        speak.textContent =
+            "Read aloud";
+
+        speak.onclick = () =>
+            speakText(text);
+
+
+        actions.appendChild(
+            copy
+        );
+
+        actions.appendChild(
+            speak
+        );
+
+        content.appendChild(
+            actions
+        );
+    }
+
+
+    message.appendChild(
+        avatar
+    );
+
+    message.appendChild(
+        content
+    );
+
+    chatInner.appendChild(
+        message
+    );
+
+
+    scrollBottom();
+
+    return message;
+}
+
+
+/* =========================================================
+   PERMISSION CARD
+   ========================================================= */
+
+function addPermission(
+    data
+) {
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+    message.className =
+        "message";
+
+
+    const avatar =
+        document.createElement(
+            "div"
+        );
+
+    avatar.className =
+        "avatar jarvis";
+
+    avatar.textContent =
+        "J";
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+    content.className =
+        "message-content";
+
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "message-name";
+
+    name.textContent =
+        "JARVIS";
+
+
+    const text =
+        document.createElement(
+            "div"
+        );
+
+    text.className =
+        "message-text";
+
+    text.textContent =
+        data.message;
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+    card.className =
+        "permission";
+
+
+    const title =
+        document.createElement(
+            "div"
+        );
+
+    title.className =
+        "permission-title";
+
+    title.textContent =
+        data.action;
+
+
+    const description =
+        document.createElement(
+            "div"
+        );
+
+    description.className =
+        "permission-text";
+
+    description.textContent =
+        "JARVIS needs your permission before performing this action.";
+
+
+    const buttons =
+        document.createElement(
+            "div"
+        );
+
+    buttons.className =
+        "permission-buttons";
+
+
+    const allow =
+        document.createElement(
+            "button"
+        );
+
+    allow.className =
+        "allow";
+
+    allow.textContent =
+        "Allow";
+
+
+    const deny =
+        document.createElement(
+            "button"
+        );
+
+    deny.className =
+        "deny";
+
+    deny.textContent =
+        "Deny";
+
+
+    allow.onclick = () =>
+        handlePermission(
+            data.request_id,
+            true,
+            card
+        );
+
+
+    deny.onclick = () =>
+        handlePermission(
+            data.request_id,
+            false,
+            card
+        );
+
+
+    buttons.appendChild(
+        allow
+    );
+
+    buttons.appendChild(
+        deny
+    );
+
+
+    card.appendChild(
+        title
+    );
+
+    card.appendChild(
+        description
+    );
+
+    card.appendChild(
+        buttons
+    );
+
+
+    content.appendChild(
+        name
+    );
+
+    content.appendChild(
+        text
+    );
+
+    content.appendChild(
+        card
+    );
+
+
+    message.appendChild(
+        avatar
+    );
+
+    message.appendChild(
+        content
+    );
+
+
+    chatInner.appendChild(
+        message
+    );
+
+
+    scrollBottom();
+}
+
+
+/* =========================================================
+   PERMISSION
+   ========================================================= */
+
+async function handlePermission(
+    requestId,
+    allow,
+    card
+) {
+
+    card.querySelectorAll(
+        "button"
+    ).forEach(
+        button =>
+            button.disabled = true
+    );
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/permission",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        request_id:
+                            requestId,
+
+                        allow:
+                            allow
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        card.innerHTML = "";
+
+
+        const result =
+            document.createElement(
+                "div"
+            );
+
+        result.className =
+            "permission-text";
+
+        result.textContent =
+            data.message ||
+            "Permission processed.";
+
+
+        card.appendChild(
+            result
+        );
+
+
+        addMessage(
+            "JARVIS",
+            data.message ||
+            "Permission processed."
+        );
+
+
+    } catch (error) {
+
+        card.innerHTML =
+            `<div class="permission-text">
+                Permission request failed.
+            </div>`;
+    }
+}
+
+
+/* =========================================================
+   SEND
+   ========================================================= */
+
+async function sendMessage() {
+
+    const text =
+        input.value.trim();
+
+
+    if (!text)
+        return;
+
+
+    addMessage(
+        "YOU",
+        text
+    );
+
+
+    input.value = "";
+
+    resizeInput();
+
+
+    conversationItem.textContent =
+        text.length > 34
+        ? text.slice(0, 34) + "..."
+        : text;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/command",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        command:
+                            text,
+
+                        session_id:
+                            sessionId
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.type ===
+            "permission"
+        ) {
+
+            addPermission(
+                data
+            );
+
+            return;
+        }
+
+
+        if (
+            data.type ===
+            "error"
+        ) {
+
+            addMessage(
+                "JARVIS",
+                data.message ||
+                "Something went wrong."
+            );
+
+            return;
+        }
+
+
+        addMessage(
+            "JARVIS",
+            data.message ||
+            "I didn't receive a response."
+        );
+
+
+    } catch (error) {
+
+        addMessage(
+            "JARVIS",
+            "Unable to connect to the JARVIS backend."
+        );
+    }
+}
+
+
+/* =========================================================
+   ENTER
+   ========================================================= */
+
+input.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter"
+            &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+        }
+    }
+);
+
+
+/* =========================================================
+   AUTO RESIZE
+   ========================================================= */
+
+input.addEventListener(
+    "input",
+    resizeInput
+);
+
+
+function resizeInput() {
+
+    input.style.height =
+        "auto";
+
+    input.style.height =
+        Math.min(
+            input.scrollHeight,
+            150
+        ) + "px";
+}
+
+
+/* =========================================================
+   SCROLL
+   ========================================================= */
+
+function scrollBottom() {
+
+    setTimeout(
+        () => {
+
+            chat.scrollTo({
+                top:
+                    chat.scrollHeight,
+
+                behavior:
+                    "smooth"
+            });
+
+        },
+        50
+    );
+}
+
+
+/* =========================================================
+   NEW CHAT
+   ========================================================= */
+
+function newChat() {
+
+    sessionId =
+        crypto.randomUUID();
+
+    localStorage.setItem(
+        "jarvis_session",
+        sessionId
+    );
+
+
+    chatInner.innerHTML = "";
+
+    chatInner.appendChild(
+        welcome
+    );
+
+    welcome.style.display =
+        "flex";
+
+
+    conversationItem.textContent =
+        "New conversation";
+}
+
+
+/* =========================================================
+   TEXT TO SPEECH
+   ========================================================= */
+
+function speakText(text) {
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+        return;
+    }
+
+
+    speechSynthesis.cancel();
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    utterance.rate =
+        1;
+
+    utterance.pitch =
+        1;
+
+
+    speechSynthesis.speak(
+        utterance
+    );
+}
+
+
+/* =========================================================
+   VOICE INPUT
+   ========================================================= */
+
+let recognition = null;
+let listening = false;
+
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+if (SpeechRecognition) {
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.lang =
+        "en-US";
+
+    recognition.interimResults =
+        false;
+
+    recognition.continuous =
+        false;
+
+
+    recognition.onstart =
+        () => {
+
+            listening = true;
+
+            micButton.textContent =
+                "⏹";
+
+        };
+
+
+    recognition.onend =
+        () => {
+
+            listening = false;
+
+            micButton.textContent =
+                "🎤";
+
+        };
+
+
+    recognition.onerror =
+        () => {
+
+            listening = false;
+
+            micButton.textContent =
+                "🎤";
+
+        };
+
+
+    recognition.onresult =
+        event => {
+
+            const transcript =
+                event.results[0][0].transcript;
+
+            input.value =
+                transcript;
+
+            resizeInput();
+
+            sendMessage();
+        };
+}
+
+
+function toggleVoice() {
+
+    if (!recognition) {
+
+        alert(
+            "Voice input is not supported by this browser."
+        );
+
+        return;
+    }
+
+
+    if (listening) {
+
+        recognition.stop();
+
+    } else {
+
+        recognition.start();
+    }
+}
+
+
+/* =========================================================
+   SYSTEM STATUS
+   ========================================================= */
+
+async function updateStatus() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/system"
+            );
+
+
+        if (!response.ok)
+            throw new Error();
+
+
+        const data =
+            await response.json();
+
+
+        systemStatus.textContent =
+            `CPU ${data.cpu_percent}% · RAM ${data.ram_percent}%`;
+
+
+    } catch {
+
+        systemStatus.textContent =
+            "Offline";
+    }
+}
+
+
+updateStatus();
+
+
+setInterval(
+    updateStatus,
+    5000
+);
+
+</script>
+
+</body>
+
+</html>
